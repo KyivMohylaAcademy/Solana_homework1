@@ -1,13 +1,26 @@
 import { Connection, LAMPORTS_PER_SOL, PublicKey } from "@solana/web3.js";
 
-const publicKey = new PublicKey("Hs47RKSAjG96kA23JjMwqMCVGpD1sDZXjEXMeoskRWEG");
+const suppliedPublicKey = process.argv[2];
 
-const connection = new Connection("https://api.devnet.solana.com", "confirmed");
+if (!suppliedPublicKey) {
+  throw new Error("Provide a public key to check the balance of!");
+}
 
-const balanceInLamports = await connection.getBalance(publicKey);
-
-const balanceInSOL = balanceInLamports / LAMPORTS_PER_SOL;
-
-console.log(
-  `💰 Finished! The balance for the wallet at address ${publicKey} is ${balanceInSOL}!`
+const connection = new Connection(
+  "https://api.mainnet-beta.solana.com",
+  "confirmed"
 );
+
+try {
+  const publicKey = new PublicKey(suppliedPublicKey);
+
+  const balanceInLamports = await connection.getBalance(publicKey);
+
+  const balanceInSOL = balanceInLamports / LAMPORTS_PER_SOL;
+
+  console.log(
+    `✅ Finished! The balance for the wallet at address ${publicKey} is ${balanceInSOL}!`
+  );
+} catch (error) {
+  console.error("Invalid provided key");
+}
