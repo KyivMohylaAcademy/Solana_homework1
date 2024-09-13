@@ -1,15 +1,18 @@
 import { Connection, LAMPORTS_PER_SOL, PublicKey } from "@solana/web3.js";
-import { Keypair } from "@solana/web3.js";
  
-const keypair = Keypair.generate(); 
-const publicKey = new PublicKey("63mG1paU3pqAQhK68BwLQoUu8YUJoq3U7vGnxuMeSobH");
+const suppliedPublicKey = process.argv[2];
+if (!suppliedPublicKey) {
+  throw new Error("Provide a public key to check the balance of!");
+}
  
 const connection = new Connection("https://api.devnet.solana.com", "confirmed");
+ 
+const publicKey = new PublicKey(suppliedPublicKey);
  
 const balanceInLamports = await connection.getBalance(publicKey);
  
 const balanceInSOL = balanceInLamports / LAMPORTS_PER_SOL;
  
 console.log(
-  `💰 Finished! The balance for the wallet at address ${publicKey} is ${balanceInSOL}!`,
+  `✅ Finished! The balance for the wallet at address ${publicKey} is ${balanceInSOL}!`,
 );
