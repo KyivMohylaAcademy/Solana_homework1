@@ -1,0 +1,72 @@
+.buttonContainer {
+  display: flex;
+  flex-direction: column;
+  text-align: middle;
+  align-items: center;
+}
+
+.button {
+  background-color: #6f42c1;
+  color: white;
+  font-size: 1rem;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 0.375rem;
+  cursor: pointer;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.button:hover {
+  background-color: #59359d;
+}
+
+.button:active {
+  background-color: #4e2a87;
+}
+.formContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1rem;
+}
+
+.formGroup {
+  margin-bottom: 1rem;
+  width: 100%;
+  max-width: 600px;
+}
+
+.formGroup label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: bold;
+}
+
+.inputField {
+  width: 100%;
+  padding: 0.5rem;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 0.375rem;
+  box-sizing: border-box;
+}
+
+.inputField:focus {
+  border-color: #6f42c1;
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(111, 60, 213, 0.2);
+}
+
+.transactionLink {
+  margin-top: 1rem;
+  text-align: center;
+}
+
+.transactionLink a {
+  color: #2e7e0a;
+  text-decoration: underline;
+}
