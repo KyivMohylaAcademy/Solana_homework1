@@ -1,8 +1,7 @@
 import dotenv from "dotenv";
 dotenv.config();
 import * as web3 from "@solana/web3.js";
-import {getKeypairFromEnvironment, airdropIfRequired} 
-  from "@solana-developers/helpers";
+import {getKeypairFromEnvironment, airdropIfRequired} from "@solana-developers/helpers";
  
 const PING_PROGRAM_ADDRESS = new web3.PublicKey(
     "ChT1B39WKLS8qUrkLvFDXMhEJ4F1XZzwUNHUt4AU9aVa",
@@ -26,15 +25,15 @@ const programId = new web3.PublicKey(PING_PROGRAM_ADDRESS);
 const pingProgramDataId = new web3.PublicKey(PING_PROGRAM_DATA_ADDRESS);
 
 const instruction = new web3.TransactionInstruction({
-    keys: [
-      {
-        pubkey: pingProgramDataId,
-        isSigner: false,
-        isWritable: true,
-      },
-    ],
-    programId,
-  });
+  keys: [
+    {
+      pubkey: pingProgramDataId,
+      isSigner: false,
+      isWritable: true,
+    },
+  ],
+  programId,
+});
 
 transaction.add(instruction);
  
@@ -44,4 +43,6 @@ const signature = await web3.sendAndConfirmTransaction(
   [payer],
 );
  
-console.log(`✅ Transaction completed! Signature is ${signature}`);
+console.log(
+  `You can view your transaction on Solana Explorer at:\nhttps://explorer.solana.com/tx/${signature}?cluster=devnet`,
+);
