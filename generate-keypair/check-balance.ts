@@ -1,13 +1,20 @@
-import { Connection, LAMPORTS_PER_SOL, PublicKey } from "@solana/web3.js";
+import {clusterApiUrl, Connection, LAMPORTS_PER_SOL, PublicKey} from "@solana/web3.js";
 
 const suppliedPublicKey = process.argv[2];
 if (!suppliedPublicKey) {
     throw new Error("Provide a public key to check the balance of!");
 }
 
-const connection = new Connection("https://api.devnet.solana.com", "confirmed");
+const connection = new Connection(clusterApiUrl("mainnet-beta"), "confirmed");
 
-const publicKey = new PublicKey(suppliedPublicKey);
+let publicKey: PublicKey;
+
+try {
+    publicKey = new PublicKey(suppliedPublicKey);
+} catch (e) {
+    console.error(e.message);
+    process.exit(404);
+}
 
 const balanceInLamports = await connection.getBalance(publicKey);
 
