@@ -32,3 +32,24 @@ const connection = new web3.Connection("https://api.devnet.solana.com", "confirm
 console.log(
   `✅ Loaded our own keypair, the destination public key, and connected to Solana`,
 );
+ 
+const transaction = new web3.Transaction();
+ 
+const LAMPORTS_TO_SEND = 1;
+ 
+const sendSolInstruction = web3.SystemProgram.transfer({
+  fromPubkey: senderKeypair.publicKey,
+  toPubkey,
+  lamports: LAMPORTS_TO_SEND,
+});
+ 
+transaction.add(sendSolInstruction);
+ 
+const signature = await web3.sendAndConfirmTransaction(connection, transaction, [
+  senderKeypair,
+]);
+ 
+console.log(
+  `💸 Finished! Sent ${LAMPORTS_TO_SEND} to the address ${toPubkey}. `,
+);
+console.log(`Transaction signature is ${signature}!`);
