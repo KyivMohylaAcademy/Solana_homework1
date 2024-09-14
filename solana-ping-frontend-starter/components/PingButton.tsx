@@ -32,10 +32,11 @@ export const PingButton: FC = () => {
 		  },
 		],
 		programId,
-		data: Buffer.alloc(0)
 	  });
    
 	  transaction.add(instruction);
+	  transaction.feePayer = publicKey
+	//   transaction.lastValidBlockHeight
 	  transaction.recentBlockhash = rc;
 
 	  const signature = await sendTransaction(transaction, connection);
