@@ -1,42 +1,55 @@
-import { useConnection, useWallet } from '@solana/wallet-adapter-react';
-import * as web3 from '@solana/web3.js'
-import { FC } from 'react'
-import styles from '../styles/PingButton.module.css'
-
-const PROGRAM_ID = `ChT1B39WKLS8qUrkLvFDXMhEJ4F1XZzwUNHUt4AU9aVa`
-const DATA_ACCOUNT_PUBKEY = `Ah9K7dQ8EHaZqcAsgBW8w37yN2eAy3koFmUn4x3CJtod`
+import { useConnection, useWallet } from "@solana/wallet-adapter-react";
+import {
+  PublicKey,
+  Transaction,
+  TransactionInstruction,
+  sendTransaction
+} from "@solana/web3.js";
+import { FC, useState } from "react";
+import styles from "../styles/PingButton.module.css";
 
 export const PingButton: FC = () => {
-	const { connection } = useConnection();
-	const { publicKey, sendTransaction } = useWallet();
+  const { connection } = useConnection();
+  const { publicKey, sendTransaction } = useWallet();
 
-	const onClick = () => {
-		if (!connection || !publicKey) { return }
-
-		const programId = new web3.PublicKey(PROGRAM_ID)
-		const programDataAccount = new web3.PublicKey(DATA_ACCOUNT_PUBKEY)
-		const transaction = new web3.Transaction()
-
-		const instruction = new web3.TransactionInstruction({
-			keys: [
-				{
-					pubkey: programDataAccount,
-					isSigner: false,
-					isWritable: true
-				},
-			],
-			programId
-		});
-
-		transaction.add(instruction)
-		sendTransaction(transaction, connection).then(sig => {
-			console.log(sig)
-		})
+  const onClick = async () => {
+	if (!connection || !publicKey) {
+	  console.error("Wallet not connected or connection unavailable");
 	}
 
-	return (
-		<div className={styles.buttonContainer} onClick={onClick}>
-			<button className={styles.button}>Ping!</button>
-		</div>
-	)
-}
+	try {
+	  const programId = new PublicKey('ChT1B39WKLS8qUrkLvFDXMhEJ4F1XZzwUNHUt4AU9aVa');
+	  const programDataAccount = new PublicKey('Ah9K7dQ8EHaZqcAsgBW8w37yN2eAy3koFmUn4x3CJtod');
+	  const transaction = new Transaction();
+	  const rc = (await connection.getLatestBlockhash('finalized')).blockhash;
+
+	  const instruction = new TransactionInstruction({
+
+		keys: [
+		  {
+			pubkey: programDataAccount,
+			isSigner: false,
+			isWritable: true,
+		  },
+		],
+		programId,
+	  });
+
+	  transaction.add(instruction);
+	  transaction.feePayer = publicKey
+	//   transaction.lastValidBlockHeight
+	  transaction.recentBlockhash = rc;
+
+	  const signature = await sendTransaction(transaction, connection);
+	  console.log("Transaction Signature:", signature);
+	} catch (error) {
+	  console.error("Transaction failed:", error);
+	}
+  };
+
+  return (
+    <div className={styles.buttonContainer} onClick={onClick}>
+      <button className={styles.button}>Ping!</button>
+    </div>
+  );
+};
