@@ -1,11 +1,8 @@
 import * as web3 from "@solana/web3.js";
-import dotenv from 'dotenv';
-dotenv.config();
+import * as dotenv from 'dotenv';
+dotenv.config()
 
-import {
-    getKeypairFromEnvironment,
-    airdropIfRequired,
-} from "@solana-developers/helpers";
+import { getKeypairFromEnvironment, airdropIfRequired } from "./helpers/src";
 
 const payer = getKeypairFromEnvironment("SECRET_KEY");
 const connection = new web3.Connection(web3.clusterApiUrl("devnet"));
