@@ -2,4 +2,4 @@ generate-keypair/node_modules
 generate-keypair/package.json
 generate-keypair/package-lock.json
 generate-keypair/.env
-.gitignore
+../.gitignore
