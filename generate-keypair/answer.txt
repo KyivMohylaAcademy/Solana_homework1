@@ -1,0 +1,4 @@
+1. 0.000000001 SOL fee = 0.00000014 USD
+2. Found
+3. It took less then several seconds
+4. In my opinion confirmed state means that sender account was debited and funds were transfered to merchant - it means that all steps of transaction happened and operation succeded.
